@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LegIT - Legal Tech for African Startups</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <div class="logo">LegIT</div>
+      <button class="hamburger" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#solutions">Solutions</a></li>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button id="themeToggle" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="hero" class="section hero">
+      <div class="hero-content">
+        <h1>LegIT</h1>
+        <p class="tagline">Fast, friendly, affordable legal tools for African digital builders.</p>
+        <p class="quote">"When African ambition meets legal clarity, even the smallest startup can conquer the world."</p>
+        <a href="#solutions" class="btn primary">Get Started</a>
+      </div>
+    </section>
+
+    <section id="about" class="section about">
+      <div class="container">
+        <h2>Our Story</h2>
+        <div class="about-content">
+          <div class="about-text">
+            <p>The idea for LegIT was born after watching too many promising African tech ventures collapse, not from bad ideas, but from legal missteps. One of the co-founders, Derrick Mbote, saw a friend's innovative app get cloned by a foreign company, with no legal ground to fight back.</p>
+            <p>LegIT was started by Derrick Mbote and a team of law students, developers, and creatives who believe tech law shouldn't be a luxury or mystery—it should be part of the build process. It matters because Africa is rising, and we want its builders protected.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="solutions" class="section solutions">
+      <div class="container">
+        <h2>Solutions & Features</h2>
+        <div class="audience-toggle">
+          <span>For Startups</span>
+          <label class="switch">
+            <input type="checkbox" id="audienceToggle">
+            <span class="slider round"></span>
+          </label>
+          <span>For Investors</span>
+        </div>
+
+        <div id="startupContent" class="audience-content">
+          <article class="card">
+            <h3>InstaContract</h3>
+            <p>An AI-driven tool that instantly generates NDAs, Terms of Use, IP transfer agreements—tailored for founders and devs.</p>
+          </article>
+          <article class="card">
+            <h3>Lex Dash</h3>
+            <p>Compliance dashboard that alerts startups about data obligations and country-specific legal gaps.</p>
+          </article>
+        </div>
+
+        <div id="investorContent" class="audience-content hidden">
+          <article class="card">
+            <h3>Investor Due Diligence</h3>
+            <p>Tools to assess startup legal health, reducing risk for investors.</p>
+          </article>
+        </div>
+
+        <div class="carousel">
+          <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+          <div class="carousel-track">
+            <div class="product-card">
+              <h4>Smart Template Generator</h4>
+              <p>GPT-powered templates trained on African law.</p>
+            </div>
+            <div class="product-card">
+              <h4>Auto-Compliance Checker</h4>
+              <p>Check data flows vs compliance checklists.</p>
+            </div>
+            <div class="product-card">
+              <h4>The Briefcase</h4>
+              <p>Library of lean legal explainers & playbooks.</p>
+            </div>
+          </div>
+          <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="team" class="section team">
+      <div class="container">
+        <h2>Meet the Team</h2>
+        <div class="team-grid">
+          <div class="team-member">
+            <div class="member-image">
+              <i class="fas fa-user"></i>
+            </div>
+            <h3>Derrick Mbote</h3>
+            <p class="role">Co-Founder & Legal Vision Lead</p>
+          </div>
+          <div class="team-member">
+            <div class="member-image">
+              <i class="fas fa-user"></i>
+            </div>
+            <h3>Russel Muiga</h3>
+            <p class="role">Community & Growth Strategist</p>
+          </div>
+          <div class="team-member">
+            <div class="member-image">
+              <i class="fas fa-user"></i>
+            </div>
+            <h3>Fraol Masresha</h3>
+            <p class="role">Lead Engineer</p>
+          </div>
+          <div class="team-member">
+            <div class="member-image">
+              <i class="fas fa-user"></i>
+            </div>
+            <h3>Faith Nduta</h3>
+            <p class="role">Head of UX & Content Design</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section faq">
+      <div class="container">
+        <h2>FAQ</h2>
+        <div class="accordion">
+          <div class="accordion-item">
+            <button class="accordion-btn">What is InstaContract?<i class="fas fa-plus"></i></button>
+            <div class="accordion-content">
+              <p>AI-driven contract generator for founders that creates legally sound documents in minutes, specifically tailored to African jurisdictions.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-btn">How does Lex Dash work?<i class="fas fa-plus"></i></button>
+            <div class="accordion-content">
+              <p>Lex Dash continuously monitors your operations against compliance requirements across different African countries and alerts you when adjustments are needed.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-btn">Is my data secure?<i class="fas fa-plus"></i></button>
+            <div class="accordion-content">
+              <p>Yes—we use enterprise-grade encryption and store all data on regional servers to ensure compliance with local data protection laws.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact">
+      <div class="container">
+        <h2>Contact Us</h2>
+        <form id="contactForm">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Message:</label>
+            <textarea id="message" rows="4" required></textarea>
+          </div>
+          <button type="submit" class="btn primary">Send Message</button>
+        </form>
+      </div>
+    </section>
+    <section id="chatbot" class="section chatbot">
+      <div class="container">
+        <h2>AI Legal Assistant</h2>
+        <p>Get instant answers to your legal questions about African startup law</p>
+        
+        <div class="chat-container">
+          <div class="chat-header">
+            <div class="chat-title">LegIT Assistant</div>
+            <div class="chat-status">Online</div>
+          </div>
+          
+          <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+              <div class="message-content">
+                Hello! I'm your LegIT legal assistant. How can I help you today?
+              </div>
+              <div class="message-time">Just now</div>
+            </div>
+          </div>
+          
+          <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Type your legal question..." autocomplete="off">
+            <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="visitCounter" class="visit-counter">
+      You've visited this site <span id="visitCount">0</span> times.
+    </div>
+  </main>
+
+  <button id="backToTop" class="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">GitHub</a>
+      </div>
+      <p class="copyright">&copy; 2023 LegIT. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
