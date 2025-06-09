@@ -280,6 +280,11 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initial greeting
   addMessage("Hello! I'm LegIT, your AI legal assistant. How can I help you with African startup law today?", false);
 });
+async function sendToAI(message) {
+  const typingElement = showTyping();
+  await new Promise(resolve => setTimeout(resolve, 1000)); // 1s delay
+  // ... rest of function
+}
 
 // Add Puter.js script to your HTML head
 const puterScript = document.createElement('script');
