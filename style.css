@@ -625,7 +625,7 @@ input:checked + .slider:before {
 .user-message {
   align-self: flex-end;
   background-color: var(--bg-color);
-  color: var(--primary-dark);
+  color: var(--accent-color);
   border-bottom-right-radius: 4px;
 }
 
