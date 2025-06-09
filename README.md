@@ -25,6 +25,32 @@ A responsive website for LegIT, providing legal-tech solutions tailored for Afri
 ## How to Run Locally
 1. Clone repository:
    ```bash
+
+   ## AI Legal Assistant
+
+Our website features an AI chatbot powered by Puter.js that can answer questions about:
+
+- LegIT's founding story and mission
+- Our legal-tech solutions for African startups
+- How to get in touch with our team
+- Our vision for the future of African tech law
+
+### Sample Questions to Try:
+
+1. **Who founded LegIT?**  
+   Learn about our origins and the team behind the project.
+
+2. **What problems does LegIT solve?**  
+   Discover how we're addressing legal challenges for African startups.
+
+3. **What services does LegIT offer?**  
+   Explore our InstaContract, Lex Dash, and Investor Ready tools.
+
+4. **How can I contact the team?**  
+   Get information about reaching out for support or partnerships.
+
+5. **What's LegIT's long-term vision?**  
+   Understand our goals for transforming Africa's legal-tech landscape.
    
 
 git pull origin main
