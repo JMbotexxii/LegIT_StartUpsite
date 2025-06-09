@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Mobile Navigation
+  // =====================
+  // 1. MOBILE NAVIGATION
+  // =====================
   const hamburger = document.querySelector('.hamburger');
   const navLinks = document.querySelector('.nav-links');
   
@@ -8,7 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
     navLinks.classList.toggle('active');
   });
 
-  // Smooth Scrolling
+  // =====================
+  // 2. SMOOTH SCROLLING
+  // =====================
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       e.preventDefault();
@@ -30,40 +34,61 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Audience Toggle
+  // =====================
+  // 3. AUDIENCE TOGGLE (FIXED)
+  // =====================
   const audienceToggle = document.getElementById('audienceToggle');
   const startupContent = document.getElementById('startupContent');
   const investorContent = document.getElementById('investorContent');
+  
+  // Initialize visibility
+  startupContent.classList.remove('hidden');
+  investorContent.classList.add('hidden');
   
   audienceToggle.addEventListener('change', function() {
     startupContent.classList.toggle('hidden');
     investorContent.classList.toggle('hidden');
   });
 
-  // Carousel Navigation
+  // =====================
+  // 4. CAROUSEL
+  // =====================
   const carouselTrack = document.querySelector('.carousel-track');
   const prevBtn = document.querySelector('.carousel-btn.prev');
   const nextBtn = document.querySelector('.carousel-btn.next');
   
-  prevBtn.addEventListener('click', () => {
-    carouselTrack.scrollBy({
-      left: -300,
-      behavior: 'smooth'
+  if (carouselTrack && prevBtn && nextBtn) {
+    prevBtn.addEventListener('click', () => {
+      carouselTrack.scrollBy({
+        left: -300,
+        behavior: 'smooth'
+      });
     });
-  });
-  
-  nextBtn.addEventListener('click', () => {
-    carouselTrack.scrollBy({
-      left: 300,
-      behavior: 'smooth'
+    
+    nextBtn.addEventListener('click', () => {
+      carouselTrack.scrollBy({
+        left: 300,
+        behavior: 'smooth'
+      });
     });
-  });
+  }
 
-  // FAQ Accordion
+  // =====================
+  // 5. FAQ ACCORDION (FIXED)
+  // =====================
   const accordionBtns = document.querySelectorAll('.accordion-btn');
   
   accordionBtns.forEach(btn => {
+    // Initialize - close all except first
+    if (btn !== accordionBtns[0]) {
+      btn.nextElementSibling.style.maxHeight = null;
+    } else {
+      btn.classList.add('active');
+      btn.nextElementSibling.style.maxHeight = btn.nextElementSibling.scrollHeight + 'px';
+    }
+    
     btn.addEventListener('click', function() {
+      // Toggle current item
       this.classList.toggle('active');
       const content = this.nextElementSibling;
       
@@ -83,7 +108,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Contact Form Validation
+  // =====================
+  // 6. CONTACT FORM
+  // =====================
   const contactForm = document.getElementById('contactForm');
   
   if (contactForm) {
@@ -116,32 +143,44 @@ document.addEventListener('DOMContentLoaded', function() {
     return re.test(email);
   }
 
-  // Theme Toggle
+  // =====================
+  // 7. THEME TOGGLE (FIXED)
+  // =====================
   const themeToggle = document.getElementById('themeToggle');
-  const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
   
-  // Set initial theme
-  if (localStorage.getItem('theme') === 'dark' || 
-      (localStorage.getItem('theme') === null && prefersDarkScheme.matches)) {
-    document.body.setAttribute('data-theme', 'dark');
-    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-  } else {
-    document.body.setAttribute('data-theme', 'light');
-    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+  // Set initial theme from localStorage or preference
+  function setInitialTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      document.body.classList.add('dark-theme');
+      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    } else {
+      document.body.classList.remove('dark-theme');
+      themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+    }
   }
+  
+  // Initialize theme
+  setInitialTheme();
   
   // Toggle theme
   themeToggle.addEventListener('click', function() {
-    const currentTheme = document.body.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.body.classList.toggle('dark-theme');
     
-    document.body.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    
-    this.innerHTML = newTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+    if (document.body.classList.contains('dark-theme')) {
+      localStorage.setItem('theme', 'dark');
+      this.innerHTML = '<i class="fas fa-sun"></i>';
+    } else {
+      localStorage.setItem('theme', 'light');
+      this.innerHTML = '<i class="fas fa-moon"></i>';
+    }
   });
 
-  // Visitor Counter
+  // =====================
+  // 8. VISITOR COUNTER
+  // =====================
   const visitCount = document.getElementById('visitCount');
   
   if (visitCount) {
@@ -157,25 +196,29 @@ document.addEventListener('DOMContentLoaded', function() {
     visitCount.textContent = count;
   }
 
-  // Back to Top Button
+  // =====================
+  // 9. BACK TO TOP BUTTON
+  // =====================
   const backToTopBtn = document.getElementById('backToTop');
   
-  window.addEventListener('scroll', function() {
-    if (window.pageYOffset > 300) {
-      backToTopBtn.classList.add('visible');
-    } else {
-      backToTopBtn.classList.remove('visible');
-    }
-  });
-  
-  backToTopBtn.addEventListener('click', function() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
+  if (backToTopBtn) {
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
     });
-  });
-});
-=====================
+    
+    backToTopBtn.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
+
+  // =====================
   // 10. CHATBOT (FIXED DOUBLE MESSAGES)
   // =====================
   const chatMessages = document.getElementById('chatMessages');
