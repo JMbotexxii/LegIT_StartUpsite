@@ -1,6 +1,7 @@
-console.log("Script loaded!");
 document.addEventListener('DOMContentLoaded', function() {
- 
+  // =====================
+  // 1. MOBILE NAVIGATION
+  // =====================
   const hamburger = document.querySelector('.hamburger');
   const navLinks = document.querySelector('.nav-links');
   
@@ -9,7 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
     navLinks.classList.toggle('active');
   });
 
-
+  // =====================
+  // 2. SMOOTH SCROLLING
+  // =====================
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       e.preventDefault();
@@ -31,43 +34,61 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-
-const audienceToggle = document.getElementById('audienceToggle');
-const startupContent = document.getElementById('startupContent');
-const investorContent = document.getElementById('investorContent');
-
-if (audienceToggle && startupContent && investorContent) {
-  audienceToggle.addEventListener('change', function () {
+  // =====================
+  // 3. AUDIENCE TOGGLE (FIXED)
+  // =====================
+  const audienceToggle = document.getElementById('audienceToggle');
+  const startupContent = document.getElementById('startupContent');
+  const investorContent = document.getElementById('investorContent');
+  
+  // Initialize visibility
+  startupContent.classList.remove('hidden');
+  investorContent.classList.add('hidden');
+  
+  audienceToggle.addEventListener('change', function() {
     startupContent.classList.toggle('hidden');
     investorContent.classList.toggle('hidden');
   });
-}
 
-
-
+  // =====================
+  // 4. CAROUSEL
+  // =====================
   const carouselTrack = document.querySelector('.carousel-track');
   const prevBtn = document.querySelector('.carousel-btn.prev');
   const nextBtn = document.querySelector('.carousel-btn.next');
   
-  prevBtn.addEventListener('click', () => {
-    carouselTrack.scrollBy({
-      left: -300,
-      behavior: 'smooth'
+  if (carouselTrack && prevBtn && nextBtn) {
+    prevBtn.addEventListener('click', () => {
+      carouselTrack.scrollBy({
+        left: -300,
+        behavior: 'smooth'
+      });
     });
-  });
-  
-  nextBtn.addEventListener('click', () => {
-    carouselTrack.scrollBy({
-      left: 300,
-      behavior: 'smooth'
+    
+    nextBtn.addEventListener('click', () => {
+      carouselTrack.scrollBy({
+        left: 300,
+        behavior: 'smooth'
+      });
     });
-  });
+  }
 
- 
+  // =====================
+  // 5. FAQ ACCORDION (FIXED)
+  // =====================
   const accordionBtns = document.querySelectorAll('.accordion-btn');
   
   accordionBtns.forEach(btn => {
+    // Initialize - close all except first
+    if (btn !== accordionBtns[0]) {
+      btn.nextElementSibling.style.maxHeight = null;
+    } else {
+      btn.classList.add('active');
+      btn.nextElementSibling.style.maxHeight = btn.nextElementSibling.scrollHeight + 'px';
+    }
+    
     btn.addEventListener('click', function() {
+      // Toggle current item
       this.classList.toggle('active');
       const content = this.nextElementSibling;
       
@@ -87,7 +108,9 @@ if (audienceToggle && startupContent && investorContent) {
     });
   });
 
-
+  // =====================
+  // 6. CONTACT FORM
+  // =====================
   const contactForm = document.getElementById('contactForm');
   
   if (contactForm) {
@@ -120,31 +143,44 @@ if (audienceToggle && startupContent && investorContent) {
     return re.test(email);
   }
 
+  // =====================
+  // 7. THEME TOGGLE (FIXED)
+  // =====================
   const themeToggle = document.getElementById('themeToggle');
-
-if (themeToggle) {
-  const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-
-  if (localStorage.getItem('theme') === 'dark' || 
-      (localStorage.getItem('theme') === null && prefersDarkScheme.matches)) {
-    document.body.setAttribute('data-theme', 'dark');
-    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-  } else {
-    document.body.setAttribute('data-theme', 'light');
-    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+  
+  // Set initial theme from localStorage or preference
+  function setInitialTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      document.body.classList.add('dark-theme');
+      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    } else {
+      document.body.classList.remove('dark-theme');
+      themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+    }
   }
-
-  themeToggle.addEventListener('click', function () {
-    const currentTheme = document.body.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-    document.body.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-
-    this.innerHTML = newTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+  
+  // Initialize theme
+  setInitialTheme();
+  
+  // Toggle theme
+  themeToggle.addEventListener('click', function() {
+    document.body.classList.toggle('dark-theme');
+    
+    if (document.body.classList.contains('dark-theme')) {
+      localStorage.setItem('theme', 'dark');
+      this.innerHTML = '<i class="fas fa-sun"></i>';
+    } else {
+      localStorage.setItem('theme', 'light');
+      this.innerHTML = '<i class="fas fa-moon"></i>';
+    }
   });
-}
 
+  // =====================
+  // 8. VISITOR COUNTER
+  // =====================
   const visitCount = document.getElementById('visitCount');
   
   if (visitCount) {
@@ -160,60 +196,66 @@ if (themeToggle) {
     visitCount.textContent = count;
   }
 
+  // =====================
+  // 9. BACK TO TOP BUTTON
+  // =====================
   const backToTopBtn = document.getElementById('backToTop');
   
-  window.addEventListener('scroll', function() {
-    if (window.pageYOffset > 300) {
-      backToTopBtn.classList.add('visible');
-    } else {
-      backToTopBtn.classList.remove('visible');
-    }
-  });
-  
-  backToTopBtn.addEventListener('click', function() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
+  if (backToTopBtn) {
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
     });
-  });
+    
+    backToTopBtn.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
 
+  // =====================
+  // 10. CHATBOT (FIXED DOUBLE MESSAGES)
+  // =====================
   const chatMessages = document.getElementById('chatMessages');
   const userInput = document.getElementById('userInput');
   const sendMessageBtn = document.getElementById('sendMessage');
   const sampleQuestions = document.querySelectorAll('.sample-question');
 
-  // Chatbot context - defines the AI's knowledge
+  // Chatbot context
   const chatbotContext = `
     You are LegIT, an AI legal assistant for African startups. Your purpose is to help founders navigate legal challenges. Here's what you know:
 
     - Founders: LegIT was founded by Derrick Mbote and a team of law students, developers, and creatives.
-    - Problem: African tech ventures often collapse due to legal missteps, like Derrick's friend whose app was cloned with no legal recourse.
-    - Mission: Make tech law accessible and part of the build process for African entrepreneurs.
-    - Services:
-      * InstaContract: AI-generated legal documents (NDAs, Terms of Use, IP agreements)
-      * Lex Dash: Compliance monitoring for African jurisdictions
-      * Investor Ready: Legal prep for fundraising
-    - Vision: Protect Africa's rising tech ecosystem by democratizing legal knowledge.
-    - Contact: Email hello@legit.africa or visit our website.
-    - Tone: Professional but approachable, with African tech enthusiasm.
+    - Problem: African tech ventures often collapse due to legal missteps.
+    - Mission: Make tech law accessible for African entrepreneurs.
+    - Services: InstaContract, Lex Dash, and Investor Ready tools.
+    - Vision: Democratize legal knowledge across Africa's tech ecosystem.
+    - Contact: hello@legit.africa
 
     Rules:
-    - Always answer in the context of African startup law
-    - If unsure, suggest contacting the LegIT team
-    - Keep responses under 3 sentences unless detailed explanation is needed
+    - Respond concisely (1-3 sentences)
+    - Focus on African legal context
+    - If unsure, direct to contact email
   `;
 
   // Local fallback responses
   const localResponses = {
-    "who founded": "LegIT was founded by Derrick Mbote and a team of law students, developers, and creatives who saw the need for accessible legal tools in Africa's tech ecosystem.",
-    "what problem": "We solve the legal challenges that cause African startups to fail - from contract issues to compliance problems and investor readiness.",
-    "what service": "We offer: 1) InstaContract for document generation, 2) Lex Dash for compliance, and 3) Investor Ready tools for fundraising.",
-    "how contact": "Reach us at hello@legit.africa or through our contact form. We're based in Nairobi but serve all of Africa.",
-    "what vision": "Our vision is a thriving African tech ecosystem where legal protection is accessible to every founder, not just well-funded startups."
+    "who founded": "LegIT was founded by Derrick Mbote and a team passionate about making legal tools accessible to African startups.",
+    "what problem": "We solve legal challenges that cause African tech ventures to fail, from contract issues to compliance problems.",
+    "what service": "We offer: 1) InstaContract for documents, 2) Lex Dash for compliance, and 3) Investor Ready tools.",
+    "how contact": "Email us at hello@legit.africa - we typically respond within 24 hours.",
+    "what vision": "We envision an African tech ecosystem where legal protection is accessible to every founder."
   };
 
   // Initialize Puter.js
   let puterReady = false;
+  let isProcessing = false; // To prevent double submissions
+
   function initPuter() {
     return new Promise((resolve) => {
       if (window.puter) {
@@ -229,7 +271,7 @@ if (themeToggle) {
         resolve();
       };
       script.onerror = () => {
-        console.warn('Puter.js failed to load - using fallback responses');
+        console.warn('Puter.js failed to load - using fallback');
         resolve();
       };
       document.body.appendChild(script);
@@ -240,7 +282,7 @@ if (themeToggle) {
   function addMessage(content, isUser = false) {
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-    messageDiv.innerHTML = content;
+    messageDiv.textContent = content; // Use textContent to prevent HTML injection
     chatMessages.appendChild(messageDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
@@ -255,29 +297,23 @@ if (themeToggle) {
     return typingDiv;
   }
 
-  // Remove typing indicator
-  function hideTyping(typingElement) {
-    if (typingElement && typingElement.parentNode) {
-      typingElement.remove();
-    }
-  }
-
   // Get local response if API fails
   function getLocalResponse(question) {
     const lowerQ = question.toLowerCase();
     for (const [key, answer] of Object.entries(localResponses)) {
       if (lowerQ.includes(key)) return answer;
     }
-    return "I can answer questions about LegIT's founding, services, and mission. Try asking about our team or products.";
+    return "I can answer about LegIT's services, team, or mission. Try asking 'What services do you offer?' or email hello@legit.africa for specific legal advice.";
   }
 
-  // Send message to AI or use fallback
-  async function sendToAI(message) {
+  // Process user message
+  async function processMessage(message) {
     if (!message.trim()) {
-      addMessage("Please type a question about LegIT or African startup law.");
+      addMessage("Please ask a question about LegIT or African startup law.");
       return;
     }
 
+    isProcessing = true;
     const typingElement = showTyping();
     addMessage(message, true);
     userInput.value = '';
@@ -293,8 +329,9 @@ if (themeToggle) {
         });
         
         hideTyping(typingElement);
-        if (response && response.content) {
+        if (response?.content) {
           addMessage(response.content);
+          isProcessing = false;
           return;
         }
       } catch (error) {
@@ -304,36 +341,40 @@ if (themeToggle) {
 
     // Fallback to local responses
     hideTyping(typingElement);
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate typing delay
+    await new Promise(resolve => setTimeout(resolve, 800)); // Simulate typing delay
     addMessage(getLocalResponse(message));
+    isProcessing = false;
   }
 
   // Event listeners
-function handleSend() {
-  if (userInput.disabled) return;
-  userInput.disabled = true;
-  sendToAI(userInput.value).then(() => {
-    userInput.disabled = false;
+  sendMessageBtn.addEventListener('click', () => {
+    if (!isProcessing) processMessage(userInput.value);
   });
-}
 
-sendMessageBtn?.addEventListener('click', handleSend);
-userInput?.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') handleSend();
-});
-
+  userInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && !isProcessing) {
+      processMessage(userInput.value);
+    }
+  });
 
   // Sample questions
   sampleQuestions.forEach(button => {
     button.addEventListener('click', () => {
-      sendToAI(button.textContent);
+      if (!isProcessing) processMessage(button.textContent);
     });
   });
 
   // Initialize
   initPuter().then(() => {
     setTimeout(() => {
-      addMessage("Hello! I'm LegIT, your AI legal assistant. Ask me about our services, team, or African startup law.");
-    }, 1500);
+      addMessage("Hello! I'm LegIT's AI assistant. Ask me about our services for African startups.");
+    }, 1000);
   });
+
+  // Helper function
+  function hideTyping(typingElement) {
+    if (typingElement?.parentNode) {
+      typingElement.remove();
+    }
+  }
 });
