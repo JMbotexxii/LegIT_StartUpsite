@@ -31,14 +31,17 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
 
-  const audienceToggle = document.getElementById('audienceToggle');
-  const startupContent = document.getElementById('startupContent');
-  const investorContent = document.getElementById('investorContent');
-  
-  audienceToggle.addEventListener('change', function() {
+const audienceToggle = document.getElementById('audienceToggle');
+const startupContent = document.getElementById('startupContent');
+const investorContent = document.getElementById('investorContent');
+
+if (audienceToggle && startupContent && investorContent) {
+  audienceToggle.addEventListener('change', function () {
     startupContent.classList.toggle('hidden');
     investorContent.classList.toggle('hidden');
   });
+}
+
 
 
   const carouselTrack = document.querySelector('.carousel-track');
@@ -117,9 +120,10 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   const themeToggle = document.getElementById('themeToggle');
+
+if (themeToggle) {
   const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-  
-  // Set initial theme
+
   if (localStorage.getItem('theme') === 'dark' || 
       (localStorage.getItem('theme') === null && prefersDarkScheme.matches)) {
     document.body.setAttribute('data-theme', 'dark');
@@ -128,17 +132,17 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.setAttribute('data-theme', 'light');
     themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
   }
-  
-  // Toggle theme
-  themeToggle.addEventListener('click', function() {
+
+  themeToggle.addEventListener('click', function () {
     const currentTheme = document.body.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    
+
     document.body.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
-    
+
     this.innerHTML = newTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
   });
+}
 
   const visitCount = document.getElementById('visitCount');
   
@@ -155,9 +159,6 @@ document.addEventListener('DOMContentLoaded', function() {
     visitCount.textContent = count;
   }
 
-  // =====================
-  // 9. BACK TO TOP BUTTON
-  // =====================
   const backToTopBtn = document.getElementById('backToTop');
   
   window.addEventListener('scroll', function() {
@@ -307,10 +308,19 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Event listeners
-  sendMessageBtn.addEventListener('click', () => sendToAI(userInput.value));
-  userInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') sendToAI(userInput.value);
+function handleSend() {
+  if (userInput.disabled) return;
+  userInput.disabled = true;
+  sendToAI(userInput.value).then(() => {
+    userInput.disabled = false;
   });
+}
+
+sendMessageBtn?.addEventListener('click', handleSend);
+userInput?.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') handleSend();
+});
+
 
   // Sample questions
   sampleQuestions.forEach(button => {
