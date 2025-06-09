@@ -187,29 +187,31 @@
       <div class="container">
         <h2>AI Legal Assistant</h2>
         <p>Get instant answers to your legal questions about African startup law</p>
-        
-        <div class="chat-container">
-          <div class="chat-header">
-            <div class="chat-title">LegIT Assistant</div>
-            <div class="chat-status">Online</div>
-          </div>
-          
-          <div class="chat-messages" id="chatMessages">
-            <div class="message bot-message">
-              <div class="message-content">
-                Hello! I'm your LegIT legal assistant. How can I help you today?
-              </div>
-              <div class="message-time">Just now</div>
-            </div>
-          </div>
-          
-          <div class="chat-input">
-            <input type="text" id="userInput" placeholder="Type your legal question..." autocomplete="off">
-            <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
-          </div>
-        </div>
+      <section id="chatbot" class="section chatbot">
+  <div class="container">
+    <h2>AI Legal Assistant</h2>
+    <p class="chatbot-instruction">Ask our AI about our story, services, or how you can get involved.</p>
+    
+    <div class="chat-container">
+      <div class="chat-messages" id="chatMessages">
+        <!-- Messages will appear here -->
       </div>
-    </section>
+      
+      <div class="chat-input-container">
+        <input type="text" id="userInput" placeholder="Type your legal question...">
+        <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+      </div>
+      
+      <div class="sample-questions">
+        <button class="sample-question">Who founded LegIT?</button>
+        <button class="sample-question">What problems does LegIT solve?</button>
+        <button class="sample-question">What services does LegIT offer?</button>
+        <button class="sample-question">How can I contact the team?</button>
+        <button class="sample-question">What's LegIT's long-term vision?</button>
+      </div>
+    </div>
+  </div>
+</section>
 
     <div id="visitCounter" class="visit-counter">
       You've visited this site <span id="visitCount">0</span> times.
