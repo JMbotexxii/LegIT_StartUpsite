@@ -175,18 +175,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
-document.addEventListener('DOMContentLoaded', function() {
-puter.ai()
-  // Chatbot Implementation
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // DOM Elements
   const chatMessages = document.getElementById('chatMessages');
   const userInput = document.getElementById('userInput');
   const sendMessageBtn = document.getElementById('sendMessage');
   const sampleQuestions = document.querySelectorAll('.sample-question');
 
-  // Chatbot context - this defines the AI's knowledge
+  // Chatbot Context
   const chatbotContext = `
     You are LegIT, an AI legal assistant for African startups. Your purpose is to help founders navigate legal challenges. Here's what you know:
-
     - Founders: LegIT was founded by Derrick Mbote and a team of law students, developers, and creatives.
     - Problem: African tech ventures often collapse due to legal missteps, like Derrick's friend whose app was cloned with no legal recourse.
     - Mission: Make tech law accessible and part of the build process for African entrepreneurs.
@@ -197,14 +196,30 @@ puter.ai()
     - Vision: Protect Africa's rising tech ecosystem by democratizing legal knowledge.
     - Contact: Email hello@legit.africa or visit our website.
     - Tone: Professional but approachable, with African tech enthusiasm.
-
     Rules:
     - Always answer in the context of African startup law
     - If unsure, suggest contacting the LegIT team
     - Keep responses under 3 sentences unless detailed explanation is needed
   `;
 
-  // Add a message to the chat
+  const localResponses = {
+    "who founded legit": "LegIT was founded by Derrick Mbote and a team of law students, developers, and creatives.",
+    "what problems does legit solve": "We solve legal challenges for African startups like contract generation, compliance, and investor readiness.",
+    "what is instacontract": "InstaContract is our AI tool that generates NDAs, IP agreements, and more—instantly.",
+    "what is lex dash": "Lex Dash helps startups stay compliant with African tech regulations by monitoring legal obligations.",
+    "how can legit help with fundraising": "Through our Investor Ready service, we prepare your legal docs and structure to attract investment."
+  };
+
+  function getLocalResponse(message) {
+    const lowerMsg = message.toLowerCase();
+    for (const key in localResponses) {
+      if (lowerMsg.includes(key)) {
+        return localResponses[key];
+      }
+    }
+    return "I can answer questions about LegIT's team, services, or how we support African startups.";
+  }
+
   function addMessage(content, isUser = false) {
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
@@ -213,7 +228,6 @@ puter.ai()
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  // Show typing indicator
   function showTyping() {
     const typingDiv = document.createElement('div');
     typingDiv.className = 'message bot-message typing-indicator';
@@ -223,51 +237,51 @@ puter.ai()
     return typingDiv;
   }
 
-  // Remove typing indicator
   function hideTyping(typingElement) {
     typingElement.remove();
   }
 
-  // Send message to Puter.js AI
   async function sendToAI(message) {
     const typingElement = showTyping();
-    
     try {
       const response = await puter.ai.chat({
         context: chatbotContext,
         message: message,
         model: 'gpt-3.5-turbo'
       });
-      
+
       hideTyping(typingElement);
+
+      if (!response || !response.content) {
+        throw new Error('Empty response');
+      }
+
       addMessage(response.content);
     } catch (error) {
       hideTyping(typingElement);
-      addMessage("Sorry, I'm having trouble connecting. Please try again later.");
-      console.error("Chatbot error:", error);
+      const localFallback = getLocalResponse(message);
+      addMessage(localFallback);
+      console.error("Puter AI failed:", error);
     }
   }
 
-  // Handle user message
   function handleUserMessage() {
     const message = userInput.value.trim();
     if (!message) {
       addMessage("Please type a question so I can help you.", false);
       return;
     }
-    
+
     addMessage(message, true);
     userInput.value = '';
     sendToAI(message);
   }
 
-  // Event listeners
   sendMessageBtn.addEventListener('click', handleUserMessage);
   userInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') handleUserMessage();
   });
 
-  // Sample questions
   sampleQuestions.forEach(button => {
     button.addEventListener('click', () => {
       userInput.value = button.textContent;
@@ -275,66 +289,14 @@ puter.ai()
     });
   });
 
-  // Initial greeting
-  addMessage("Hello! I'm LegIT, your AI legal assistant. How can I help you with African startup law today?", false);
+  addMessage("Hello! I'm LegIT, your AI legal assistant. How can I help you with African startup law today?");
 });
-async function sendToAI(message) {
-  const typingElement = showTyping();
-  await new Promise(resolve => setTimeout(resolve, 1000)); // 1s delay
-  // ... rest of function
-}
 
-// Add Puter.js script to your HTML head
+// Load Puter.js and run chatbot after it's loaded
 const puterScript = document.createElement('script');
 puterScript.src = 'https://js.puter.com/v2/';
+puterScript.onload = () => {
+  console.log('Puter.js loaded');
+};
 document.head.appendChild(puterScript);
-puterScript.onload = () => {You are LegIT, an AI legal assistant for African startups. Your purpose is to help founders navigate legal challenges. Here's what you know:
-
-    - Founders: LegIT was founded by Derrick Mbote and a team of law students, developers, and creatives.
-    - Problem: African tech ventures often collapse due to legal missteps, like Derrick's friend whose app was cloned with no legal recourse.
-    - Mission: Make tech law accessible and part of the build process for African entrepreneurs.
-    - Services:
-      * InstaContract: AI-generated legal documents (NDAs, Terms of Use, IP agreements)
-      * Lex Dash: Compliance monitoring for African jurisdictions
-      * Investor Ready: Legal prep for fundraising
-    - Vision: Protect Africa's rising tech ecosystem by democratizing legal knowledge.
-    - Contact: Email hello@legit.africa or visit our website.
-    - Tone: Professional but approachable, with African tech enthusiasm.
-
-    Rules:
-    - Always answer in the context of African startup law
-    - If unsure, suggest contacting the LegIT team
-    - Keep responses under 3 sentences unless detailed explanation is needed
-  `;
- 
-};
-
-const localResponses = {
-  "who founded legit": "LegIT was founded by Derrick Mbote and a team of law students, developers, and creatives.",
-  "what problems does legit solve": "We solve legal challenges for African startups like contract generation, compliance, and investor readiness.",
-  // Add all 5 required questions
-};
-
-function getLocalResponse(question) {
-  const lowerQ = question.toLowerCase();
-  for (const [key, answer] of Object.entries(localResponses)) {
-    if (lowerQ.includes(key)) return answer;
-  }
-  return "I can answer questions about LegIT's founding, services, and mission. Try asking about our team or products.";
-}
-
-// Modify sendToAI():
-async function sendToAI(message) {
-  // ... existing code ...
-  
-  try {
-    const response = await puter.ai.chat(...);
-    if (!response || response.error) {
-      throw new Error('Empty response');
-    }
-    // ... handle success ...
-  } catch (error) {
-    const localAnswer = getLocalResponse(message);
-    addMessage(localAnswer); // Fallback to local responses
-  }
-}
+</script>
