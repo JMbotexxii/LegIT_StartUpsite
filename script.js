@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Mobile Navigation
+ 
   const hamburger = document.querySelector('.hamburger');
   const navLinks = document.querySelector('.nav-links');
   
@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     navLinks.classList.toggle('active');
   });
 
-  // Smooth Scrolling
+
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       e.preventDefault();
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Audience Toggle
+
   const audienceToggle = document.getElementById('audienceToggle');
   const startupContent = document.getElementById('startupContent');
   const investorContent = document.getElementById('investorContent');
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
     investorContent.classList.toggle('hidden');
   });
 
-  // Carousel Navigation
+
   const carouselTrack = document.querySelector('.carousel-track');
   const prevBtn = document.querySelector('.carousel-btn.prev');
   const nextBtn = document.querySelector('.carousel-btn.next');
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // FAQ Accordion
+ 
   const accordionBtns = document.querySelectorAll('.accordion-btn');
   
   accordionBtns.forEach(btn => {
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Contact Form Validation
+
   const contactForm = document.getElementById('contactForm');
   
   if (contactForm) {
@@ -116,7 +116,6 @@ document.addEventListener('DOMContentLoaded', function() {
     return re.test(email);
   }
 
-  // Theme Toggle
   const themeToggle = document.getElementById('themeToggle');
   const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
   
@@ -141,7 +140,6 @@ document.addEventListener('DOMContentLoaded', function() {
     this.innerHTML = newTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
   });
 
-  // Visitor Counter
   const visitCount = document.getElementById('visitCount');
   
   if (visitCount) {
@@ -157,7 +155,9 @@ document.addEventListener('DOMContentLoaded', function() {
     visitCount.textContent = count;
   }
 
-  // Back to Top Button
+  // =====================
+  // 9. BACK TO TOP BUTTON
+  // =====================
   const backToTopBtn = document.getElementById('backToTop');
   
   window.addEventListener('scroll', function() {
@@ -174,18 +174,16 @@ document.addEventListener('DOMContentLoaded', function() {
       behavior: 'smooth'
     });
   });
-});
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  // DOM Elements
+
   const chatMessages = document.getElementById('chatMessages');
   const userInput = document.getElementById('userInput');
   const sendMessageBtn = document.getElementById('sendMessage');
   const sampleQuestions = document.querySelectorAll('.sample-question');
 
-  // Chatbot Context
+  // Chatbot context - defines the AI's knowledge
   const chatbotContext = `
     You are LegIT, an AI legal assistant for African startups. Your purpose is to help founders navigate legal challenges. Here's what you know:
+
     - Founders: LegIT was founded by Derrick Mbote and a team of law students, developers, and creatives.
     - Problem: African tech ventures often collapse due to legal missteps, like Derrick's friend whose app was cloned with no legal recourse.
     - Mission: Make tech law accessible and part of the build process for African entrepreneurs.
@@ -196,30 +194,47 @@ document.addEventListener('DOMContentLoaded', function () {
     - Vision: Protect Africa's rising tech ecosystem by democratizing legal knowledge.
     - Contact: Email hello@legit.africa or visit our website.
     - Tone: Professional but approachable, with African tech enthusiasm.
+
     Rules:
     - Always answer in the context of African startup law
     - If unsure, suggest contacting the LegIT team
     - Keep responses under 3 sentences unless detailed explanation is needed
   `;
 
+  // Local fallback responses
   const localResponses = {
-    "who founded legit": "LegIT was founded by Derrick Mbote and a team of law students, developers, and creatives.",
-    "what problems does legit solve": "We solve legal challenges for African startups like contract generation, compliance, and investor readiness.",
-    "what is instacontract": "InstaContract is our AI tool that generates NDAs, IP agreements, and more—instantly.",
-    "what is lex dash": "Lex Dash helps startups stay compliant with African tech regulations by monitoring legal obligations.",
-    "how can legit help with fundraising": "Through our Investor Ready service, we prepare your legal docs and structure to attract investment."
+    "who founded": "LegIT was founded by Derrick Mbote and a team of law students, developers, and creatives who saw the need for accessible legal tools in Africa's tech ecosystem.",
+    "what problem": "We solve the legal challenges that cause African startups to fail - from contract issues to compliance problems and investor readiness.",
+    "what service": "We offer: 1) InstaContract for document generation, 2) Lex Dash for compliance, and 3) Investor Ready tools for fundraising.",
+    "how contact": "Reach us at hello@legit.africa or through our contact form. We're based in Nairobi but serve all of Africa.",
+    "what vision": "Our vision is a thriving African tech ecosystem where legal protection is accessible to every founder, not just well-funded startups."
   };
 
-  function getLocalResponse(message) {
-    const lowerMsg = message.toLowerCase();
-    for (const key in localResponses) {
-      if (lowerMsg.includes(key)) {
-        return localResponses[key];
+  // Initialize Puter.js
+  let puterReady = false;
+  function initPuter() {
+    return new Promise((resolve) => {
+      if (window.puter) {
+        puterReady = true;
+        return resolve();
       }
-    }
-    return "I can answer questions about LegIT's team, services, or how we support African startups.";
+
+      const script = document.createElement('script');
+      script.src = 'https://js.puter.com/v2/';
+      script.onload = () => {
+        puterReady = true;
+        console.log('Puter.js loaded');
+        resolve();
+      };
+      script.onerror = () => {
+        console.warn('Puter.js failed to load - using fallback responses');
+        resolve();
+      };
+      document.body.appendChild(script);
+    });
   }
 
+  // Add message to chat
   function addMessage(content, isUser = false) {
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
@@ -228,6 +243,7 @@ document.addEventListener('DOMContentLoaded', function () {
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
+  // Show typing indicator
   function showTyping() {
     const typingDiv = document.createElement('div');
     typingDiv.className = 'message bot-message typing-indicator';
@@ -237,66 +253,76 @@ document.addEventListener('DOMContentLoaded', function () {
     return typingDiv;
   }
 
+  // Remove typing indicator
   function hideTyping(typingElement) {
-    typingElement.remove();
-  }
-
-  async function sendToAI(message) {
-    const typingElement = showTyping();
-    try {
-      const response = await puter.ai.chat({
-        context: chatbotContext,
-        message: message,
-        model: 'gpt-3.5-turbo'
-      });
-
-      hideTyping(typingElement);
-
-      if (!response || !response.content) {
-        throw new Error('Empty response');
-      }
-
-      addMessage(response.content);
-    } catch (error) {
-      hideTyping(typingElement);
-      const localFallback = getLocalResponse(message);
-      addMessage(localFallback);
-      console.error("Puter AI failed:", error);
+    if (typingElement && typingElement.parentNode) {
+      typingElement.remove();
     }
   }
 
-  function handleUserMessage() {
-    const message = userInput.value.trim();
-    if (!message) {
-      addMessage("Please type a question so I can help you.", false);
+  // Get local response if API fails
+  function getLocalResponse(question) {
+    const lowerQ = question.toLowerCase();
+    for (const [key, answer] of Object.entries(localResponses)) {
+      if (lowerQ.includes(key)) return answer;
+    }
+    return "I can answer questions about LegIT's founding, services, and mission. Try asking about our team or products.";
+  }
+
+  // Send message to AI or use fallback
+  async function sendToAI(message) {
+    if (!message.trim()) {
+      addMessage("Please type a question about LegIT or African startup law.");
       return;
     }
 
+    const typingElement = showTyping();
     addMessage(message, true);
     userInput.value = '';
-    sendToAI(message);
+
+    // Try Puter.js API first
+    if (puterReady) {
+      try {
+        const response = await puter.ai.chat({
+          context: chatbotContext,
+          message: message,
+          model: 'gpt-3.5-turbo',
+          timeout: 8000
+        });
+        
+        hideTyping(typingElement);
+        if (response && response.content) {
+          addMessage(response.content);
+          return;
+        }
+      } catch (error) {
+        console.warn("Puter.js error:", error);
+      }
+    }
+
+    // Fallback to local responses
+    hideTyping(typingElement);
+    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate typing delay
+    addMessage(getLocalResponse(message));
   }
 
-  sendMessageBtn.addEventListener('click', handleUserMessage);
+  // Event listeners
+  sendMessageBtn.addEventListener('click', () => sendToAI(userInput.value));
   userInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') handleUserMessage();
+    if (e.key === 'Enter') sendToAI(userInput.value);
   });
 
+  // Sample questions
   sampleQuestions.forEach(button => {
     button.addEventListener('click', () => {
-      userInput.value = button.textContent;
-      handleUserMessage();
+      sendToAI(button.textContent);
     });
   });
 
-  addMessage("Hello! I'm LegIT, your AI legal assistant. How can I help you with African startup law today?");
+  // Initialize
+  initPuter().then(() => {
+    setTimeout(() => {
+      addMessage("Hello! I'm LegIT, your AI legal assistant. Ask me about our services, team, or African startup law.");
+    }, 1500);
+  });
 });
-
-// Load Puter.js and run chatbot after it's loaded
-const puterScript = document.createElement('script');
-puterScript.src = 'https://js.puter.com/v2/';
-puterScript.onload = () => {
-  console.log('Puter.js loaded');
-};
-document.head.appendChild(puterScript);
-</script>
