@@ -175,3 +175,113 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
+// Add this to your existing script.js
+document.addEventListener('DOMContentLoaded', function() {
+  // ... (your existing code)
+
+  // Chatbot Implementation
+  const chatMessages = document.getElementById('chatMessages');
+  const userInput = document.getElementById('userInput');
+  const sendMessageBtn = document.getElementById('sendMessage');
+  const sampleQuestions = document.querySelectorAll('.sample-question');
+
+  // Chatbot context - this defines the AI's knowledge
+  const chatbotContext = `
+    You are LegIT, an AI legal assistant for African startups. Your purpose is to help founders navigate legal challenges. Here's what you know:
+
+    - Founders: LegIT was founded by Derrick Mbote and a team of law students, developers, and creatives.
+    - Problem: African tech ventures often collapse due to legal missteps, like Derrick's friend whose app was cloned with no legal recourse.
+    - Mission: Make tech law accessible and part of the build process for African entrepreneurs.
+    - Services:
+      * InstaContract: AI-generated legal documents (NDAs, Terms of Use, IP agreements)
+      * Lex Dash: Compliance monitoring for African jurisdictions
+      * Investor Ready: Legal prep for fundraising
+    - Vision: Protect Africa's rising tech ecosystem by democratizing legal knowledge.
+    - Contact: Email hello@legit.africa or visit our website.
+    - Tone: Professional but approachable, with African tech enthusiasm.
+
+    Rules:
+    - Always answer in the context of African startup law
+    - If unsure, suggest contacting the LegIT team
+    - Keep responses under 3 sentences unless detailed explanation is needed
+  `;
+
+  // Add a message to the chat
+  function addMessage(content, isUser = false) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+    messageDiv.innerHTML = content;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  // Show typing indicator
+  function showTyping() {
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'message bot-message typing-indicator';
+    typingDiv.innerHTML = '<span></span><span></span><span></span>';
+    chatMessages.appendChild(typingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    return typingDiv;
+  }
+
+  // Remove typing indicator
+  function hideTyping(typingElement) {
+    typingElement.remove();
+  }
+
+  // Send message to Puter.js AI
+  async function sendToAI(message) {
+    const typingElement = showTyping();
+    
+    try {
+      const response = await puter.ai.chat({
+        context: chatbotContext,
+        message: message,
+        model: 'gpt-3.5-turbo'
+      });
+      
+      hideTyping(typingElement);
+      addMessage(response.content);
+    } catch (error) {
+      hideTyping(typingElement);
+      addMessage("Sorry, I'm having trouble connecting. Please try again later.");
+      console.error("Chatbot error:", error);
+    }
+  }
+
+  // Handle user message
+  function handleUserMessage() {
+    const message = userInput.value.trim();
+    if (!message) {
+      addMessage("Please type a question so I can help you.", false);
+      return;
+    }
+    
+    addMessage(message, true);
+    userInput.value = '';
+    sendToAI(message);
+  }
+
+  // Event listeners
+  sendMessageBtn.addEventListener('click', handleUserMessage);
+  userInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') handleUserMessage();
+  });
+
+  // Sample questions
+  sampleQuestions.forEach(button => {
+    button.addEventListener('click', () => {
+      userInput.value = button.textContent;
+      handleUserMessage();
+    });
+  });
+
+  // Initial greeting
+  addMessage("Hello! I'm LegIT, your AI legal assistant. How can I help you with African startup law today?", false);
+});
+
+// Add Puter.js script to your HTML head
+const puterScript = document.createElement('script');
+puterScript.src = 'https://js.puter.com/v2/';
+document.head.appendChild(puterScript);
