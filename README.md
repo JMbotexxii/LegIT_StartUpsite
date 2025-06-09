@@ -64,3 +64,8 @@ git commit -m "Style chatbot UI to match brand"
 git commit -m "Add sample questions and error handling"
 git push origin main
    git clone https://github.com/your-username/legit-website.git
+   git add .
+git commit -m "Add Puter.js AI chatbot integration"
+git commit -m "Style chatbot UI to match brand"
+git commit -m "Add sample questions and error handling"
+git push origin main
