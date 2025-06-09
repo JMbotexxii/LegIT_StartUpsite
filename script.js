@@ -175,10 +175,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
-// Add this to your existing script.js
 document.addEventListener('DOMContentLoaded', function() {
-  // ... (your existing code)
-
+puter.ai()
   // Chatbot Implementation
   const chatMessages = document.getElementById('chatMessages');
   const userInput = document.getElementById('userInput');
