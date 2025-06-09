@@ -26,25 +26,7 @@ A responsive website for LegIT, providing legal-tech solutions tailored for Afri
 1. Clone repository:
    ```bash
    
-### 7. Verify Your Deployment
 
-Check these before submission:
-1. All images load properly
-2. Navigation links work
-3. Forms submit correctly
-4. No console errors (check with F12 Developer Tools)
-5. Mobile responsiveness works
-6. Theme toggle persists on page refresh
-
-### Troubleshooting Tips
-
-**If GitHub Pages isn't updating:**
-1. Check your `index.html` is in the root folder
-2. Ensure all file paths are relative (e.g., `./style.css` not `C:/projects/style.css`)
-3. Clear your browser cache when testing
-
-**If you get merge conflicts:**
-```bash
 git pull origin main
 # Resolve conflicts in your code editor
 git add .
