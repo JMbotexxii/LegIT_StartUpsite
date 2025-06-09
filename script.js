@@ -309,3 +309,32 @@ puterScript.onload = () => {You are LegIT, an AI legal assistant for African sta
  
 };
 
+const localResponses = {
+  "who founded legit": "LegIT was founded by Derrick Mbote and a team of law students, developers, and creatives.",
+  "what problems does legit solve": "We solve legal challenges for African startups like contract generation, compliance, and investor readiness.",
+  // Add all 5 required questions
+};
+
+function getLocalResponse(question) {
+  const lowerQ = question.toLowerCase();
+  for (const [key, answer] of Object.entries(localResponses)) {
+    if (lowerQ.includes(key)) return answer;
+  }
+  return "I can answer questions about LegIT's founding, services, and mission. Try asking about our team or products.";
+}
+
+// Modify sendToAI():
+async function sendToAI(message) {
+  // ... existing code ...
+  
+  try {
+    const response = await puter.ai.chat(...);
+    if (!response || response.error) {
+      throw new Error('Empty response');
+    }
+    // ... handle success ...
+  } catch (error) {
+    const localAnswer = getLocalResponse(message);
+    addMessage(localAnswer); // Fallback to local responses
+  }
+}
